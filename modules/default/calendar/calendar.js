@@ -59,7 +59,8 @@ Module.register("calendar", {
 		sliceMultiDayEvents: false,
 		broadcastPastEvents: false,
 		nextDaysRelative: false,
-		selfSignedCert: false
+		selfSignedCert: false,
+		broadcastModeOnly: false
 	},
 
 	requiresVersion: "2.1.0",
@@ -154,6 +155,12 @@ Module.register("calendar", {
 		}
 
 		this.updateDom(this.config.animationSpeed);
+	},
+
+	notificationReceived: function (notification, payload, sender) {
+		if (notification === "DOM_OBJECTS_CREATED" && this.config.broadcastModeOnly == true) {
+			this.hide(0, { lockString: this.identifier });
+		}
 	},
 
 	// Override dom generator.
